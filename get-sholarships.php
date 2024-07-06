@@ -153,6 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     if (count($data) > 0) {
       $res['code'] = 200;
       $res['status'] = 'OK';
@@ -160,11 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       http_response_code($res['code']);
       echo json_encode($res);
     } else {
-      $res['code'] = 404;
-      $res['status'] = 'Not Found';
-      $res['data']['error'] = 'No data found';
-      http_response_code($res['code']);
-      echo json_encode($res);
+      include_once "errors/404.php";
     }
   } catch (Exception $e) {
     $res['code'] = 500;
@@ -174,9 +171,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo json_encode($res);
   }
 } else {
-  $res['code'] = 400;
-  $res['status'] = 'Bad Request';
-  $res['data']['error'] = 'Request method not allowed';
-  http_response_code($res['code']);
-  echo json_encode($res);
+  include_once "errors/400.php";
 }
